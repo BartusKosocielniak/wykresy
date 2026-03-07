@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doddument</title>
+    <link rel="stylesheet" href="style.css?id=dffdddddd">
+</head>
+
+<body>
+    <div class="content">
+        <header>
+            <div class="header-content">
+                <div class="header-top">
+                    <div class="status">
+                        <a href="#">Zaloguj się</a>
+                    </div>
+                    <div class="logo">
+                        <p>tu bedzie ekstra logo</p>
+                    </div>
+                </div>
+                <div class="header-buttons">
+                    <button id="login" class="active">Zaloguj</button>
+                    <button id="create-account">Utwórz konto</button>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="main-content">
+                <div class="login-panel">
+                    <div class="photo-profile"></div>
+                    <input type="text" placeholder="E-mail">
+                    <input type="text" placeholder="Hasło">
+                    <input type="submit" value="Zaloguj się">
+                </div>
+                <form id="registerForm" class="register-panel" style="display:none">
+                    <div class="photo-profile"></div>
+                    <input type="text" placeholder="E-mail" id="register-email">
+                    <input type="text" id="register-password" placeholder="Hasło">
+                    <input type="submit" value="Zarestruj się">
+                    <p id="register-result"></p>
+                </form>
+                <form class="login-panel">
+                    <div class="photo-profile"></div>
+                    <input type="text" placeholder="E-mail">
+                    <input type="text" placeholder="Hasło">
+                    <input type="submit" value="Zaloguj się">
+                    <input type="submit" value="Zapomniałem hasła...">
+                </form>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <p>Copyright &copy; 2025 by Bartłomiej Kościelniak</p>
+        </footer>
+    </div>
+    <script>
+        const login = document.getElementById("login")
+        const createAccount = document.getElementById("create-account")
+        const loginPanel = document.querySelector(".login-panel")
+        const registerPanel = document.querySelector(".register-panel")
+
+
+
+        login.addEventListener('click', () => {
+            console.log("gowno");
+            login.disabled = true;
+            login.classList.toggle('active')
+            createAccount.classList.toggle('active')
+            createAccount.disabled = false;
+            registerPanel.style.display = 'none'
+            loginPanel.style.display = "flex"
+        })
+
+        createAccount.addEventListener('click', () => {
+            createAccount.disabled = true;
+            createAccount.classList.toggle('active')
+            login.classList.toggle('active')
+            login.disabled = false;
+            loginPanel.style.display = 'none'
+            registerPanel.style.display = "flex"
+        })
+
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+
+      const res = await fetch("register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      document.getElementById("register-result").textContent = data.message;
+    });
+
+
+
+    </script>
+
+</body>
+
+</html>

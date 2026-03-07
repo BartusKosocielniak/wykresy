@@ -1,0 +1,51 @@
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Document</title>
+//     <script>
+//     async function test(){
+//         let data = await fetch("ajax.php?id=10");
+//         data = await data.json();
+//         console.log(data);
+//     }
+//     test();
+//     </script>
+// </head>
+// <body>
+// <pre>
+// óąź
+// <?php
+// //phpinfo();
+// include("cfg.php"); // require / require_once / include_once
+// $c=$dbh->exec("set names utf8");
+
+// $sth= $dbh->query("select * from imiona");
+// $row=$sth->fetch(PDO::FETCH_NUM);
+// print_r($row);
+// $row=$sth->fetch(PDO::FETCH_ASSOC);
+// print_r($row);
+
+// $sth= $dbh->query("select * from imiona");
+// $arr=$sth->fetchAll();
+// print_r($arr);
+// for($i=0; $i<count($arr);$i++)
+//     echo $arr[$i]['imie'];
+
+// // SQL injection
+// // select count(*) from users where login="     " and psswd="   DANE_Z FORMULARZA    "
+
+// // select count(*) from users where login="      " or 1=1 --           " and psswd="   DANE_Z FORMULARZA    "
+
+// // BINDUJ!!!!!!!!
+// $id=0; // get / post
+// $sql="select * from imiona where id>=:id";
+// $sth=$dbh->prepare($sql);
+// $sth->bindValue('id', $id, PDO::PARAM_INT);
+// $sth->execute();
+// $res=$sth->fetchAll();
+// print_r($res);
+ ?>
+<!-- // </body>
+// </html> -->

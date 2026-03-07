@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="imie" placeholder="Podaj imię">
+    <input type="password" id="password" placeholder="Podaj wiek">
+    <button id="wyslij">Wyślij</button>
+
+    <script>
+        document.getElementById('wyslij').addEventListener('click', () => {
+            console.log("coś");
+            const imie = document.getElementById('imie').value;
+            const password= document.getElementById('password').value;
+
+            const formData = new FormData();
+            formData.append('imie', imie);
+            formData.append('password', password);
+
+            fetch('odbierz.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Odpowiedź z PHP:', data);
+                });
+        });
+    </script>
+</body>
+
+</html>
