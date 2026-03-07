@@ -33,7 +33,7 @@ $dayCount = isset($_GET["dayCount"]) && $_GET["dayCount"] > 0 ? (int)$_GET["dayC
     <!-- dialog -->
     <dialog id="dialog">
         <div class="form-in-dialog">
-            <input type="text" id="temperatureInput" placeholder="Wprowadź temperaturę">
+            <input type="number" id="temperatureInput" placeholder="Wprowadź temperaturę">
             <button id="saveTemperature">Zapisz Temperaturę</button>
             <button id="ill">Choroba</button>
             <button id="nothing">Brak pomiaru</button>
@@ -143,12 +143,12 @@ $dayCount = isset($_GET["dayCount"]) && $_GET["dayCount"] > 0 ? (int)$_GET["dayC
         });
         illBtn.addEventListener('click', () => {
             console.log('Zaznaczono chorobę');
-            editChart({ illness: true, dayNumber: currentEditedPoint });
+            editChart({ illness: true, dayNumber: currentEditedPoint, temperature: null, noMeasurement: null });
             document.getElementById('dialog').close();
         });
         nothingBtn.addEventListener('click', () => {
             console.log('Zaznaczono brak pomiaru');
-            editChart({ noMeasurement: true, dayNumber: currentEditedPoint });
+            editChart({ noMeasurement: true, dayNumber: currentEditedPoint, temperature: null, illness: null });
             document.getElementById('dialog').close();
         });
 
