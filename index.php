@@ -10,7 +10,7 @@ $password = '';
 
 $dbh = new PDO($dsn, $user, $password);
 
-    $sth = $dbh->prepare("SELECT * FROM temperature WHERE user_id = :user_id ORDER BY id");
+    $sth = $dbh->prepare("SELECT * FROM temperatures WHERE user_id = :user_id ORDER BY day_number");
 
 // $id='id'; // w domysle wartosc od klienta (GET/POST)
 // $sth = $dbh->prepare("select * from temperature");
@@ -57,20 +57,20 @@ enum Status: string {
 } 
 class TemperaturePoint
 {
-    public string $id;
+    public string $dayNumber;
     public int $x;
     public int $y;
     public string $temperature;
     public Status $healthStatus;
 
     public function __construct(
-        string $id,
+        string $dayNumber,
         int $x,
         int $y,
         string $temperature,
         Status $healthStatus
     ) {
-        $this->id = $id;
+        $this->dayNumber = $dayNumber;
         $this->x = $x;
         $this->y = $y;
         $this->temperature = $temperature;
@@ -122,7 +122,7 @@ for ($i=1; $i <= $dayCount; $i++) {
     imagestring($im,5, $distance-5, $height-$marginBottom+10, $i, $black);
 
     //przeniesc to glebiej ale jak narazie nie
-    if(array_key_exists($currentDataIndex, $data) && $data[$currentDataIndex]['id'] == $i){
+    if(array_key_exists($currentDataIndex, $data) && $data[$currentDataIndex]['day_number'] == $i){
         if($i>1){
             dotInChart($i, $tableOfColors, $im, $distance, $marginTop, $chartBreaks, $data[$currentDataIndex], $data[$currentDataIndex-1], $chartHeight, $gap);
         }
@@ -151,22 +151,22 @@ for ($i=1; $i <= $dayCount; $i++) {
 
 
 
-function dotInChart($id, $tableOfColors, $im, $distance, $marginTop, $chartBreaks, $row, $earlierRow, $chartHeight, $gap){
+function dotInChart($dayNumber, $tableOfColors, $im, $distance, $marginTop, $chartBreaks, $row, $earlierRow, $chartHeight, $gap){
     global $temperaturePoints;
     if($row['temperature'] == 0){
         imagefilledellipse($im, $distance, $chartHeight+$marginTop, 10, 10, $tableOfColors['gray']);
-        $temperaturePoints[] = new TemperaturePoint($id, $distance, $chartHeight+$marginTop, 0,Status::Nothing);
+        $temperaturePoints[] = new TemperaturePoint($dayNumber, $distance, $chartHeight+$marginTop, 0,Status::Nothing);
     }
     else if($row['temperature'] == -1){
         imagefilledellipse($im, $distance, $chartHeight+$marginTop, 10, 10, $tableOfColors['red']);
-        $temperaturePoints[] = new TemperaturePoint($id, $distance, $chartHeight+$marginTop, -1,Status::Ill);
+        $temperaturePoints[] = new TemperaturePoint($dayNumber, $distance, $chartHeight+$marginTop, -1,Status::Ill);
     }
     else{
         imagefilledellipse($im, $distance, $marginTop+$chartBreaks*(37.2-$row['temperature']), 10, 10, $tableOfColors['blue']);
 
-        $temperaturePoints[] = new TemperaturePoint($id, $distance, $marginTop+$chartBreaks*(37.2-$row['temperature']), $row['temperature'], Status::Normal);
+        $temperaturePoints[] = new TemperaturePoint($dayNumber, $distance, $marginTop+$chartBreaks*(37.2-$row['temperature']), $row['temperature'], Status::Normal);
 
-        if($row['id'] - $earlierRow['id'] == 1 && $earlierRow['temperature'] > 0){
+        if($row['day_number'] - $earlierRow['day_number'] == 1 && $earlierRow['temperature'] > 0){
             imageline($im,$distance-$gap, $marginTop+$chartBreaks*(37.2-$earlierRow['temperature']), $distance,$marginTop+$chartBreaks*(37.2-$row['temperature']), $tableOfColors['blue']);
         }
     }

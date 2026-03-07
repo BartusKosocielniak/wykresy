@@ -14,25 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
     
     // Kluczowa poprawka: upewnij się, że klucze istnieją (zmieniłem currentEditedPoint na id poniżej w JS)
-    if (isset($input['temperature']) && isset($input['id'])) {
+    if (isset($input['temperature']) && isset($input['dayNumber'])) {
         $temp = (float)$input['temperature'];
         
         if ($temp >= 36 && $temp <= 37.2) {
             // Sprawdzamy czy istnieje (używamy konsekwentnie $dbh)
-            $check = $dbh->prepare("SELECT id FROM temperature WHERE id = :id"); // Zakładam tabelę temperature
-            $check->execute(['id' => $input['id']]);
+            $check = $dbh->prepare("SELECT day_number FROM temperatures WHERE day_number = :dayNumber AND user_id=:user_id"); // Zakładam tabelę temperatures
+            $check->execute(['dayNumber' => $input['dayNumber'], 'user_id' => 1]);
 
             if ($check->rowCount() > 0) {
                 // UPDATE
-                $sth = $dbh->prepare("UPDATE temperature SET temperature = :temperature WHERE id = :id AND user_id = :user_id");
+                $sth = $dbh->prepare("UPDATE temperatures SET temperature = :temperature WHERE day_number = :dayNumber AND user_id = :user_id");
             } else {
                 // INSERT
-                $sth = $dbh->prepare("INSERT INTO temperature (id, user_id, temperature) VALUES (:id, :user_id, :temperature)");
+                $sth = $dbh->prepare("INSERT INTO temperatures (day_number, user_id, temperature) VALUES (:dayNumber, :user_id, :temperature)");
             }
 
             $sth->bindValue(':user_id', 1, PDO::PARAM_INT);
             $sth->bindValue(':temperature', $temp, PDO::PARAM_STR);
-            $sth->bindValue(':id', $input['id'], PDO::PARAM_INT);
+            $sth->bindValue(':dayNumber', $input['dayNumber'], PDO::PARAM_INT);
             
             if ($sth->execute()) {
                 echo json_encode(['success' => true]);

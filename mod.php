@@ -74,7 +74,7 @@ $dayCount = isset($_GET["dayCount"]) && $_GET["dayCount"] > 0 ? (int)$_GET["dayC
                 area.coords = `${element.x},${element.y},10`;
 
                 //lub query selector all i foreach i jak po tablicy :))
-                area.dataset.idArea = element.id;
+                area.dataset.idArea = element.dayNumber;
                 area.dataset.temperature = element.temperature > 0 ? element.temperature : " ";
 
                 //to jest testowo
@@ -137,18 +137,18 @@ $dayCount = isset($_GET["dayCount"]) && $_GET["dayCount"] > 0 ? (int)$_GET["dayC
         saveTemperatureBtn.addEventListener('click', () => {
             const temperature = document.getElementById('temperatureInput').value;
             console.log(`Zapisano temperaturę: ${temperature}, ${currentEditedPoint}`);
-            editChart({ temperature: temperature, id: currentEditedPoint });
+            editChart({ temperature: temperature, dayNumber: currentEditedPoint });
             document.getElementById('dialog').close();
 
         });
         illBtn.addEventListener('click', () => {
             console.log('Zaznaczono chorobę');
-            editChart({ illness: true, id: currentEditedPoint });
+            editChart({ illness: true, dayNumber: currentEditedPoint });
             document.getElementById('dialog').close();
         });
         nothingBtn.addEventListener('click', () => {
             console.log('Zaznaczono brak pomiaru');
-            editChart({ noMeasurement: true, id: currentEditedPoint });
+            editChart({ noMeasurement: true, dayNumber: currentEditedPoint });
             document.getElementById('dialog').close();
         });
 
@@ -157,5 +157,3 @@ $dayCount = isset($_GET["dayCount"]) && $_GET["dayCount"] > 0 ? (int)$_GET["dayC
 </body>
 
 </html>
-todo
-zrob z tego phpw sensie przeniesienie getow z tego do
