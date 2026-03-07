@@ -2,19 +2,19 @@
 
 // header('Content-Type: image/png;');
 
-$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3306';
+$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3307';
 $user = 'root';
-$password = '1234';
+$password = '';
 
 
 
 $dbh = new PDO($dsn, $user, $password);
 
-    $sth = $dbh->prepare("SELECT * FROM temperature ORDER BY id");
-    $sth->execute();
+    $sth = $dbh->prepare("SELECT * FROM temperature WHERE user_id = :user_id ORDER BY id");
+
 // $id='id'; // w domysle wartosc od klienta (GET/POST)
 // $sth = $dbh->prepare("select * from temperature");
-// $sth->bindValue('id', $id, PDO::PARAM_INT);
+$sth->bindValue('user_id', 1, PDO::PARAM_INT);
 $sth->execute();
 $data = $sth->fetchAll(PDO::FETCH_ASSOC);
 
