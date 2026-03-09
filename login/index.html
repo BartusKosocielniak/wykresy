@@ -42,7 +42,7 @@
                     <input type="text" placeholder="E-mail" id="register-email">
                     <input type="text" id="register-password" placeholder="Hasło">
                     <input type="submit" value="Zarestruj się">
-                    <p id="register-result"></p>
+                    <!-- <p id="register-result"></p> -->
                 </form>
             </div>
         </main>
@@ -84,14 +84,15 @@
       const email = document.getElementById("register-email").value;
       const password = document.getElementById("register-password").value;
 
-      const res = await fetch("register.php", {
+      const res = await fetch("../register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
-      document.getElementById("register-result").textContent = data.message;
+    //   document.getElementById("register-result").textContent = data.message;
+      alert(data.message);
     });
 
 

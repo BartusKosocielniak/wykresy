@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 07, 2026 at 09:11 AM
+-- Host: 127.0.0.1:3307
+-- Generation Time: Mar 09, 2026 at 11:05 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -24,28 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `temperature`
+-- Struktura tabeli dla tabeli `temperatures`
 --
 
-CREATE TABLE `temperature` (
-  `id` int(11) NOT NULL,
-  `temperature` float DEFAULT NULL
+CREATE TABLE `temperatures` (
+  `day_number` int(11) DEFAULT NULL,
+  `temperature` float DEFAULT NULL,
+  `id` int(11) DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `temperature`
+-- Dumping data for table `temperatures`
 --
 
-INSERT INTO `temperature` (`id`, `temperature`) VALUES
-(1, 36.3),
-(2, 36.4),
-(3, 36.4),
-(4, -1),
-(5, -1),
-(6, 0),
-(11, 36.2),
-(7, 37),
-(9, 0);
+INSERT INTO `temperatures` (`day_number`, `temperature`, `id`) VALUES
+(1, 36.3, 1),
+(2, 36.6, 1),
+(3, -1, 1),
+(4, -1, 1),
+(5, -1, 1),
+(6, 0, 1),
+(11, 36.2, 1),
+(7, 37, 1),
+(9, 0, 1),
+(12, 36.6, 1);
 
 -- --------------------------------------------------------
 
@@ -83,18 +85,31 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`) VALUES
-(1, '', ''),
-(2, 'Bart?omiej', '1234');
+(3, 'bkosciel@interia.pl', '$2y$10$L9poNjybuJkazBiZAE3tweRiwdb.uFvCEn29AAIEI8ohNVh3L0kOm'),
+(2, 'Bart?omiej', '1234'),
+(4, 'bjkkrakow@gmail.com', '$2y$10$UNX2aTkFkNv0TF51nseh/OfffR/fi2nG95gWnY1DUMienBHCGQ8S.');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `user_chars`
+--
+
+CREATE TABLE `user_chars` (
+  `id_char` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_chars`
+--
+
+INSERT INTO `user_chars` (`id_char`, `user_id`) VALUES
+(1, 1);
 
 --
 -- Indeksy dla zrzutów tabel
 --
-
---
--- Indeksy dla tabeli `temperature`
---
-ALTER TABLE `temperature`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksy dla tabeli `users`
@@ -104,6 +119,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`email`);
 
 --
+-- Indeksy dla tabeli `user_chars`
+--
+ALTER TABLE `user_chars`
+  ADD PRIMARY KEY (`id_char`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -111,7 +132,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `user_chars`
+--
+ALTER TABLE `user_chars`
+  MODIFY `id_char` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

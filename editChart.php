@@ -7,7 +7,8 @@ try {
     $dbh = new PDO($dsn, $user, $password);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'error' => 'Błąd połączenia: ' . $e->getMessage()]));
+    echo json_encode(['success' => false, 'error' => 'Błąd połączenia: ' . $e->getMessage()]);
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,18 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 function updateIllness($input, $dbh){
-            $check = $dbh->prepare("SELECT day_number FROM temperatures WHERE day_number = :dayNumber AND user_id=:user_id"); // Zakładam tabelę temperatures
-            $check->execute(['dayNumber' => $input['dayNumber'], 'user_id' => 1]);
+            $check = $dbh->prepare("SELECT day_number FROM temperatures WHERE day_number = :dayNumber AND id=:id"); // Zakładam tabelę temperatures
+            $check->execute(['dayNumber' => $input['dayNumber'], 'id' => 1]);
 
             if ($check->rowCount() > 0) {
                 // UPDATE
-                $sth = $dbh->prepare("UPDATE temperatures SET temperature = :temperature WHERE day_number = :dayNumber AND user_id = :user_id");
+                $sth = $dbh->prepare("UPDATE temperatures SET temperature = :temperature WHERE day_number = :dayNumber AND id = :id");
             } else {
                 // INSERT
-                $sth = $dbh->prepare("INSERT INTO temperatures (day_number, user_id, temperature) VALUES (:dayNumber, :user_id, :temperature)");
+                $sth = $dbh->prepare("INSERT INTO temperatures (day_number, id, temperature) VALUES (:dayNumber, :id, :temperature)");
             }
 
-            $sth->bindValue(':user_id', 1, PDO::PARAM_INT);
+            $sth->bindValue(':id', 1, PDO::PARAM_INT);
             $sth->bindValue(':temperature', -1, PDO::PARAM_STR);
             $sth->bindValue(':dayNumber', $input['dayNumber'], PDO::PARAM_INT);
             
@@ -50,8 +51,8 @@ function updateIllness($input, $dbh){
 }
 
 function updateNoMeasurement($input, $dbh){
-            $sth = $dbh->prepare("DELETE FROM temperatures WHERE day_number = :dayNumber AND user_id=:user_id");
-            if ($sth->execute(['dayNumber' => $input['dayNumber'], 'user_id' => 1])) {
+            $sth = $dbh->prepare("DELETE FROM temperatures WHERE day_number = :dayNumber AND id=:id");
+            if ($sth->execute(['dayNumber' => $input['dayNumber'], 'id' => 1])) {
                 echo json_encode(['success' => true]);
             } else {
                 echo json_encode(['success' => false, 'error' => 'Błąd zapisu w bazie']);
@@ -63,18 +64,18 @@ function updateTemperature($input, $dbh) {
         
         if ($temp >= 36 && $temp <= 37.2) {
             // Sprawdzamy czy istnieje (używamy konsekwentnie $dbh)
-            $check = $dbh->prepare("SELECT day_number FROM temperatures WHERE day_number = :dayNumber AND user_id=:user_id"); // Zakładam tabelę temperatures
-            $check->execute(['dayNumber' => $input['dayNumber'], 'user_id' => 1]);
+            $check = $dbh->prepare("SELECT day_number FROM temperatures WHERE day_number = :dayNumber AND id=:id"); // Zakładam tabelę temperatures
+            $check->execute(['dayNumber' => $input['dayNumber'], 'id' => 1]);
 
             if ($check->rowCount() > 0) {
                 // UPDATE
-                $sth = $dbh->prepare("UPDATE temperatures SET temperature = :temperature WHERE day_number = :dayNumber AND user_id = :user_id");
+                $sth = $dbh->prepare("UPDATE temperatures SET temperature = :temperature WHERE day_number = :dayNumber AND id = :id");
             } else {
                 // INSERT
-                $sth = $dbh->prepare("INSERT INTO temperatures (day_number, user_id, temperature) VALUES (:dayNumber, :user_id, :temperature)");
+                $sth = $dbh->prepare("INSERT INTO temperatures (day_number, id, temperature) VALUES (:dayNumber, :id, :temperature)");
             }
 
-            $sth->bindValue(':user_id', 1, PDO::PARAM_INT);
+            $sth->bindValue(':id', 1, PDO::PARAM_INT);
             $sth->bindValue(':temperature', $temp, PDO::PARAM_STR);
             $sth->bindValue(':dayNumber', $input['dayNumber'], PDO::PARAM_INT);
             

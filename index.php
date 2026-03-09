@@ -10,11 +10,11 @@ $password = '';
 
 $dbh = new PDO($dsn, $user, $password);
 
-    $sth = $dbh->prepare("SELECT * FROM temperatures WHERE user_id = :user_id ORDER BY day_number");
+    $sth = $dbh->prepare("SELECT * FROM temperatures WHERE id = :id ORDER BY day_number");
 
 // $id='id'; // w domysle wartosc od klienta (GET/POST)
 // $sth = $dbh->prepare("select * from temperature");
-$sth->bindValue('user_id', 1, PDO::PARAM_INT);
+$sth->bindValue('id', 1, PDO::PARAM_INT);
 $sth->execute();
 $data = $sth->fetchAll(PDO::FETCH_ASSOC);
 
