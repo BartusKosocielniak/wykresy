@@ -1,9 +1,9 @@
 <?php
 header("Content-Type: application/json");
 
-$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3307';
+$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3306';
 $user = 'root';
-$password = '';
+$password = '1234';
 
 
 
@@ -27,6 +27,8 @@ $password = $data['password'] ?? '';
 
 //teraz naucz sie regex
 
+
+//ogarnij lepszego regexa, taki jaki jest na stronie mendeli
 $passwordRegex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/';
     
 if (!$email || !preg_match($passwordRegex, $password)) {

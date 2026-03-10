@@ -32,8 +32,8 @@
             <div class="main-content">
                 <form class="login-panel">
                     <div class="photo-profile-login photo-profile"></div>
-                    <input type="text" placeholder="E-mail">
-                    <input type="text" placeholder="Hasło">
+                    <input type="text" placeholder="E-mail" id="login-email">
+                    <input type="text" placeholder="Hasło" id="login-password">
                     <input type="submit" value="Zaloguj się">
                     <input type="submit" value="Zapomniałem hasła...">
                 </form>
@@ -94,6 +94,27 @@
     //   document.getElementById("register-result").textContent = data.message;
       alert(data.message);
     });
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        //sprawdz co to robi
+        e.preventDefault
+
+        const email = document.getElementById("login-email").value
+
+        const password = document.getElementById("login-password").value
+
+        const res = await fetch("../login.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+        });
+
+      const data = await res.json();
+    //   document.getElementById("register-result").textContent = data.message;
+      alert(data.message);
+
+
+    })
 
 
 

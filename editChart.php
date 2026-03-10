@@ -1,7 +1,7 @@
 <?php
-$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3307';
+$dsn = 'mysql:dbname=mendela;host=127.0.0.1:3306';
 $user = 'root';
-$password = '';
+$password = '1234';
 
 try {
     $dbh = new PDO($dsn, $user, $password);
